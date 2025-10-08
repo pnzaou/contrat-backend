@@ -134,4 +134,27 @@ export class ContractController {
       next(error);
     }
   }
+
+  static async addInventoryOut(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { id } = req.params;
+      const { inventoryOut } = req.body;
+
+      const contract = await Contract.findById(id);
+
+      if (!contract) {
+        throw new AppError('Contrat non trouvé', 404);
+      }
+
+      contract.inventoryOut = inventoryOut;
+      await contract.save();
+
+      res.status(200).json({
+        status: 'success',
+        data: { contract }
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
 }

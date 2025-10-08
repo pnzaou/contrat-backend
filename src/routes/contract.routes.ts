@@ -34,5 +34,9 @@ router.get('/search', ContractController.searchContracts);
 router.get('/:id', ContractController.getContractById);
 router.put('/:id', ContractController.updateContract);
 router.delete('/:id', ContractController.deleteContract);
+router.patch('/:id/inventory-out', 
+  body('inventoryOut').isArray(),
+  ContractController.addInventoryOut
+);
 
 export default router;

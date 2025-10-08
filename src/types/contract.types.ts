@@ -1,3 +1,16 @@
+// Structure pour chaque composant d'une pièce
+export interface IInventoryComponent {
+  name: string;
+  conditionIn?: string;
+  conditionOut?: string;
+}
+
+// Structure pour chaque pièce
+export interface IRoom {
+  roomName: string;
+  components: IInventoryComponent[];
+}
+
 export interface ITenant {
   firstName: string;
   lastName: string;
@@ -22,18 +35,12 @@ export interface IRentalPeriod {
   paymentMethod: string;
 }
 
-export interface IInventoryItem {
-  item: string;
-  conditionIn: string;
-  conditionOut?: string;
-}
-
 export interface IContract {
   tenant: ITenant;
-  apartmentType?: string;
+  apartmentType?: 'F3' | 'F4';
   rentalPeriod: IRentalPeriod;
-  inventoryIn: IInventoryItem[];
-  inventoryOut?: IInventoryItem[];
+  inventoryIn: IRoom[];
+  inventoryOut?: IRoom[];
   createdAt: Date;
   updatedAt: Date;
 }

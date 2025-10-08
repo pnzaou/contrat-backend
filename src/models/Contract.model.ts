@@ -1,5 +1,5 @@
 import mongoose, { Schema, Document } from "mongoose";
-import { IContract, IInventoryItem } from "../types/contract.types";
+import { IContract } from "../types/contract.types";
 
 export interface IContractDocument extends IContract, Document {}
 
@@ -35,10 +35,15 @@ const RentalPeriodSchema = new Schema({
   }
 }, { _id: false });
 
-const InventoryItemSchema = new Schema({
-  item: { type: String, required: true },
-  conditionIn: { type: String, required: true },
+const InventoryComponentSchema = new Schema({
+  name: { type: String, required: true },
+  conditionIn: { type: String },
   conditionOut: { type: String }
+}, { _id: false });
+
+const RoomSchema = new Schema({
+  roomName: { type: String, required: true },
+  components: { type: [InventoryComponentSchema], default: [] }
 }, { _id: false });
 
 const ContractSchema = new Schema<IContractDocument>({
@@ -50,14 +55,14 @@ const ContractSchema = new Schema<IContractDocument>({
   },
   rentalPeriod: { type: RentalPeriodSchema, required: true },
   inventoryIn: { 
-    type: [InventoryItemSchema], 
+    type: [RoomSchema], 
     required: true,
     validate: {
-      validator: (v: IInventoryItem[]) => v.length > 0,
-      message: 'Au moins un élément d\'inventaire requis'
+      validator: (v: any[]) => v.length > 0,
+      message: 'Au moins une pièce d\'inventaire requis'
     }
   },
-  inventoryOut: { type: [InventoryItemSchema] }
+  inventoryOut: { type: [RoomSchema] }
 }, {
   timestamps: true
 });
