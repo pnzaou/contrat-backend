@@ -22,6 +22,8 @@ app.use(cors({
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+console.log(process.env.CORS_ORIGIN)
+
 // Routes
 app.use('/api/contracts', contractRoutes);
 
