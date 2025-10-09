@@ -7,6 +7,7 @@ const TenantSchema = new Schema({
   firstName: { type: String, required: true },
   lastName: { type: String, required: true },
   origin: { type: String, required: true },
+  nationality: { type: String, required: true },
   phone: { type: String, required: true },
   emergencyPhone: { type: String, required: true },
   birthYear: { type: String, required: true },

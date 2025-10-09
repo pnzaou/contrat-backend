@@ -14,6 +14,7 @@ export interface IRoom {
 export interface ITenant {
   firstName: string;
   lastName: string;
+  nationality: string; 
   origin: string;
   phone: string;
   emergencyPhone: string;
