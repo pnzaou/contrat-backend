@@ -12,19 +12,33 @@ dotenv.config();
 const app: Application = express();
 const PORT = process.env.PORT || 5000;
 
+const FRONT_ORIGIN = process.env.CORS_ORIGIN || 'http://localhost:5173';
+
 const corsOptions = {
-  origin: process.env.CORS_ORIGIN || 'http://localhost:5173',
-  credentials: true
+  origin: (origin: string | undefined, callback: any) => {
+    // autorise les requêtes sans origin (ex: same-origin, curl), sinon compare
+    if (!origin) return callback(null, true);
+    if (origin === FRONT_ORIGIN) return callback(null, true);
+    // tu peux étendre avec un tableau d'origines si besoin
+    return callback(new Error('Origin non autorisée par CORS'), false);
+  },
+  credentials: true,
+  methods: ['GET','POST','PUT','DELETE','OPTIONS']
 };
-// Middlewares
+
+app.use(cors(corsOptions));
+app.options('*', cors(corsOptions)); // gère preflight
+
 app.use(helmet());
 app.use(compression());
-app.use(cors(corsOptions));
-app.options('*', cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-console.log(process.env.CORS_ORIGIN)
+// debug: log origin
+app.use((req, res, next) => {
+  console.log('Origin header:', req.headers.origin);
+  next();
+});
 
 // Routes
 app.use('/api/contracts', contractRoutes);
