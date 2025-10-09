@@ -25,6 +25,10 @@ app.use(express.urlencoded({ extended: true }));
 // Routes
 app.use('/api/contracts', contractRoutes);
 
+app.get('/', (req, res) => {
+  res.status(200).json({ message: 'Bienvenue sur l\'API de gestion des contrats', status: 'OK', timestamp: new Date().toISOString() });
+});
+
 // Health check
 app.get('/health', (req, res) => {
   res.status(200).json({ status: 'OK', timestamp: new Date().toISOString() });
