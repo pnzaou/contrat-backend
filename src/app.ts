@@ -27,7 +27,6 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions));
-app.options('*', cors(corsOptions)); // gère preflight
 
 app.use(helmet());
 app.use(compression());
